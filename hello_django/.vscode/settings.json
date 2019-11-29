@@ -1,4 +1,6 @@
 {
     "deepcode.review.results.hideInformationIssues": false,
-    "python.pythonPath": "D:\\Bibliotecas\\Documentos\\GitHub\\Curso de Python com Django\\dev_django\\Scripts\\python.exe"
+    "python.pythonPath": "D:\\Bibliotecas\\Documentos\\GitHub\\Curso Django com Python\\dev_django\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
