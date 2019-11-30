@@ -1,2 +1,5 @@
 dev_django
 agenda/.vscode/settings.json
+agenda/core/migrations/
+agenda/core/__pycache__/
+agenda/agenda/__pycache__/
