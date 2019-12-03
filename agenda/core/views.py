@@ -1,5 +1,8 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from core.models import Eventos
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 # Create your views here.
 
@@ -12,7 +15,28 @@ def eventoLocal(request,evento):
     page.append(f'<li>Local do evento: {eventoObject.local}</li>')
     return HttpResponse(page)
 
+def loginUser(request):
+    return render(request,'login.html')
+
+def submitLogin(request):
+    if request.POST:
+        user = request.POST.get('username')
+        password = request.POST.get('password')
+        usuario = authenticate(username=user,password=password)
+        if usuario is not None:
+            login(request,usuario)
+            return redirect('/')
+        else:
+            messages.error(request,'Usuário e/ou senha inválidos')
+    return redirect('/')
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')
+
+@login_required(login_url='/login/')
 def listaEventos(request):
-    eventos = Eventos.objects.all()
+    user = request.user
+    eventos = Eventos.objects.filter(usuario=user)
     dados = {'eventos':eventos}
     return render(request,'agenda.html',dados)
