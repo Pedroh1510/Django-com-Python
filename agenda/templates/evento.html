@@ -1,0 +1,27 @@
+{% extends 'modelPage.html' %}
+
+{% block content %}
+<div class=".container-sm">
+<form class="was-validated" action="submit" method="post">{% csrf_token %}
+    <h2>Novo evento</h2>
+    <div class="row">
+        <label class="col-sm-3">Título</label>
+        <input class="col-sm-4" type="text" name="titulo">
+    </div>
+    <div class="row">
+        <label class="col-sm-3">Data do evento</label>
+        <input class="col-sm-4"type="datetime-local" name="dataEvento">
+    </div>
+    <div class="row">
+        <label class="col-sm-3">Descrição</label>
+        <textarea class="col-sm-4" name="descricao" cols="26" rows="2"></textarea>
+    </div>
+    <div class="row">
+        <label class="col-sm-3">Local do evento</label>
+        <input class="col-sm-4" type="text" name="local" size="26">
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a class="btn btn-danger" href="/agenda/" role="button">Cancelar</a>
+</form>
+</div>
+{% endblock %}
