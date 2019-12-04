@@ -3,6 +3,8 @@ from core.models import Eventos
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.http.response import Http404
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -28,7 +30,8 @@ def logoutUser(request):
 @login_required(login_url='/login/')
 def listaEventos(request):
     user = request.user
-    eventos = Eventos.objects.filter(usuario=user)
+    dataAtual = datetime.now()- timedelta(hours=1)
+    eventos = Eventos.objects.filter(usuario=user, dataEvento__gt=dataAtual)
     dados = {'eventos':eventos}
     return render(request,'agenda.html',dados)
 
@@ -48,7 +51,6 @@ def submitEvento(request):
         descricao = request.POST.get('descricao')
         local = request.POST.get('local')
         idEvento = request.POST.get('idEvento')
-        print(idEvento)
         usuario = request.user
         if idEvento:
             evento = Eventos.objects.get(id=idEvento)
@@ -64,17 +66,12 @@ def submitEvento(request):
 
 @login_required(login_url='/login/')
 def deleteEvento(request,idEvento):
-    evento = Eventos.objects.get(id=idEvento)
+    try:
+        evento = Eventos.objects.get(id=idEvento)
+    except Exception:
+        Http404
     if request.user == evento.usuario:
         evento.delete()
+    else:
+        raise Http404()
     return redirect('/')
-
-@login_required(login_url='/login/')
-def eventoLocal(request,evento):
-    eventoObject = Eventos.objects.get(titulo=evento)
-    page= []
-    page.append(f'<li>Descrição do evento: {eventoObject.usuario}</li>')
-    page.append(f'<li>Descrição do evento: {eventoObject.descricao}</li>')
-    page.append(f'<li>Data do evento: {eventoObject.dataEvento}</li>')
-    page.append(f'<li>Local do evento: {eventoObject.local}</li>')
-    return HttpResponse(page)
