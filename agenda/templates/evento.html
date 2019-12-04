@@ -6,19 +6,20 @@
     <h2>Novo evento</h2>
     <div class="row">
         <label class="col-sm-3">Título</label>
-        <input class="col-sm-4" type="text" name="titulo">
+        <input type="text" name="idEvento" hidden value="{{evento.id}}">
+        <input class="col-sm-4" type="text" name="titulo" value="{{evento.titulo}}">
     </div>
     <div class="row">
         <label class="col-sm-3">Data do evento</label>
-        <input class="col-sm-4"type="datetime-local" name="dataEvento">
+        <input class="col-sm-4"type="datetime-local" name="dataEvento" value="{{evento.getDataInputEvento}}">
     </div>
     <div class="row">
         <label class="col-sm-3">Descrição</label>
-        <textarea class="col-sm-4" name="descricao" cols="26" rows="2"></textarea>
+        <textarea class="col-sm-4" name="descricao">{{evento.descricao}}</textarea>
     </div>
     <div class="row">
         <label class="col-sm-3">Local do evento</label>
-        <input class="col-sm-4" type="text" name="local" size="26">
+        <input class="col-sm-4" type="text" name="local" value="{{evento.local}}">
     </div>
     <button type="submit" class="btn btn-success">Salvar</button>
     <a class="btn btn-danger" href="/agenda/" role="button">Cancelar</a>
